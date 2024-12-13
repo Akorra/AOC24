@@ -47,11 +47,6 @@ bool isSafe(const std::string& report, int startpos = 0, bool dampenerOn=false)
                 str2.erase(cur, pos-cur+1);
                 if(isSafe(str2, 0, false))
                     return true;
-
-                std::string str3 = report;
-                str3.erase(pos+1, report.find(' ', pos+1)-pos);
-                if(isSafe(str3, 0, false))
-                    return true;
             }
             
             return false;
