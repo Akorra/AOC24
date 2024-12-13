@@ -59,14 +59,12 @@ int main()
         {
             l1.push_back(lid1);
             auto it = l2.find(lid2);
-            l2[lid2]++;
+            l2[lid2]++; // No need to call `find`, `operator[]` does the insertion automatically
         }
 
         int res = 0;
         for(const int& id : l1)
-        {
-            res += (id * l2[id]);
-        }
+            res += (id * l2[id]); // since we dont care about l2 after this we can add the default 0 and multiply instead of using find
 
         std::cout << res << std::endl;    
     }
