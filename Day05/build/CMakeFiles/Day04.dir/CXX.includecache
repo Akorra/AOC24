@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/c/Users/never/Repos/AOC24/Day05/main.cpp
+iostream
+-
+fstream
+-
+vector
+-
+unordered_map
+-
+unordered_set
+-
+
