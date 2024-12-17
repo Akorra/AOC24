@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.16)
+
+set (CMAKE_CXX_STANDARD 20)
+
+# setup project name
+project(AdventOfCode VERSION 1.0.0 LANGUAGES C CXX)
+
+set(EXECUTABLE_NAME Day07)
+
+# add the executable
+add_executable(${EXECUTABLE_NAME}  main.cpp)
+target_include_directories(${EXECUTABLE_NAME} PUBLIC "../Utils")

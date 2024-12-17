@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/c/Users/never/Repos/AOC24/Day07/main.cpp
+iostream
+-
+fstream
+-
+vector
+-
+queue
+-
+../Utils/ScopedTimer.h
+/mnt/c/Users/never/Repos/AOC24/Utils/ScopedTimer.h
+
+/mnt/c/Users/never/Repos/AOC24/Utils/ScopedTimer.h
+iostream
+-
+string
+-
+chrono
+-
+
