@@ -2,11 +2,14 @@
 #include <fstream>
 #include <vector>
 #include <unordered_set>
+#include <cstring>
 
 #include "../Utils/ScopedTimer.h"
 
+#define GUARD    '^'
 #define EMPTY    '.'
 #define OBSTACLE '#'
+#define OBSTRUCT 'O'
 
 enum class Dir : int { UP=0, RIGHT, DOWN, LEFT };
 Dir& operator++(Dir& d) { d = static_cast<Dir>( ( (int)d + 1 ) % 4 ); return d; } 
@@ -19,22 +22,28 @@ constexpr const int directions[4][2] = { {  0, -1 },     // up
                                          {  0,  1 },     // down
                                          { -1,  0 } };   // left
 
-#define ns(state, action, row) state+directions[action][row]
 bool step(State& s, const char* env, const int nrows, const int ncols)
 {
-
     int r = s.first/ncols;
     int c = s.first%ncols;
 
-    int nr = r + directions[(int)s.second][1];
-    int nc = c + directions[(int)s.second][0];
-    
-    // out of bounds
-    if( nr < 0 || nc < 0 || nr>=nrows || nc>=ncols)
-        return false;
+    int nr = r;
+    int nc = c;
 
-    if ( env[ ( r+directions[(int)s.second][1] )*ncols + ( c+directions[(int)s.second][0] ) ] == OBSTACLE )
+    while(true)
+    {
+        nr = r + directions[(int)s.second][1];
+        nc = c + directions[(int)s.second][0];
+
+        // out of bounds
+        if( nr < 0 || nc < 0 || nr>=nrows || nc>=ncols)
+            return false;
+
+        if(env[nr*ncols + nc] == EMPTY)
+            break;
+
         ++s.second;
+    }
 
     r += directions[(int)s.second][1];
     c += directions[(int)s.second][0];
@@ -59,23 +68,26 @@ int main()
     char ch;
     while(input.get(ch))
     {
+        if(ch=='\n') break;
         ncols++;
-        if(ch=='\n')
-            break;
     }    
 
     nrows = ncols;
 
     char* grid = new char[nrows*ncols];
-    
+
     int i=0;
     State start(0, Dir::UP);
     
+    input.clear();
     input.seekg(0);
-    while(input.get(ch)) 
+    while(input >> grid[i++])  
     {
-        if(!( ch - '^' )) { grid[i] = EMPTY; start.first = i; }
-        grid[i++] = ch; 
+        if( grid[i-1] == GUARD )
+        { 
+            grid[i-1] = EMPTY;
+            start.first = i-1;
+        }
     }
 
     input.close();
@@ -93,7 +105,38 @@ int main()
 
     std::cout << path.size() << std::endl;
 
+    int loops = 0;
     { // Part 2
         ScopedTimer timer;
+
+        // keep track of direction
+        int* pathState = new int[nrows*ncols];
+
+        // put obstruction on each of the guard's path positions, except start position
+        path.erase(start.first);
+        for(const auto& obs : path)
+        {
+            grid[obs] = OBSTRUCT;
+
+            std::memset(pathState, -1, nrows * ncols * sizeof(int));
+
+            auto s = start;
+            while(step(s, grid, nrows, ncols))
+            {
+                if(pathState[s.first] == (int)s.second)
+                {
+                    //loop
+                    loops++;
+                    break;
+                }
+                pathState[s.first] = (int)s.second;
+            }
+
+            grid[obs] = EMPTY;
+        }
     }
+
+    std::cout << loops << std::endl;
+
+    delete[] grid;
 }
