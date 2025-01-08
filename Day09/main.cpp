@@ -88,7 +88,7 @@ int main()
         while (r > 0) 
         {
             if (blocks[r].value == -1) 
-            {
+            {//test
                 r--;
                 continue;
             }
