@@ -1,3 +1,0 @@
-/mnt/c/Users/never/Repos/AOC24/Day09/build/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/never/Repos/AOC24/Day09/build/CMakeFiles/edit_cache.dir
-/mnt/c/Users/never/Repos/AOC24/Day09/build/CMakeFiles/Day09.dir

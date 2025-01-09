@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/Day07.dir/main.cpp.o  -o Day07 

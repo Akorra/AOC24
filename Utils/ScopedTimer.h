@@ -15,8 +15,16 @@ public:
     ~ScopedTimer() 
     {
         auto endTime  = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(endTime - m_startTime).count();
-        std::cout << "[Timer] " << (m_label.empty() ? "Elapsed Time" : m_label) << ": " << duration / 1000.0 << "ms" << std::endl;
+        auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - m_startTime).count();
+        std::cout << "[Timer] " << (m_label.empty() ? "Elapsed Time" : m_label) << ": ";
+        if(duration >= 1e9)
+            std::cout << duration / 1e9 << "s" << std::endl;
+        else if (duration >= 1e6)
+            std::cout << duration / 1e6 << " ms" << std::endl;
+        else if (duration >= 1e3)
+            std::cout << duration / 1e3 << " µs" << std::endl;
+        else
+            std::cout << duration << " ns" << std::endl;
     }
 
 private:
